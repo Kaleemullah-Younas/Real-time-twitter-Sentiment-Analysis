@@ -54,7 +54,7 @@ def _get_pipeline():
         model_path = os.path.join(
             os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
             "Kafka-PySpark",
-            "logistic_regression_model.pkl",
+            "logistic_regression_model",
         )
         _pipeline = PipelineModel.load(model_path)
     return _pipeline

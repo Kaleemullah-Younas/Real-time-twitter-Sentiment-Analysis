@@ -1,10 +1,10 @@
-from pyspark.ml import PipelineModel
 import os
 import joblib
 import re
 import nltk
 import time
 import sys
+import typing
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -21,6 +21,9 @@ os.environ["JAVA_TOOL_OPTIONS"] = (
     "--add-opens=java.base/sun.util=ALL-UNNAMED"
 )
 
+os.environ['PYSPARK_PYTHON'] = sys.executable
+os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
+
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
 from json import loads
@@ -28,6 +31,7 @@ from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
+from pyspark.ml import PipelineModel
 
 # Establish connection to MongoDB Atlas (Cloud)
 MONGODB_URI = os.getenv(
@@ -131,27 +135,21 @@ except Exception as e:
     print("[INFO] Please ensure PySpark 3.4.3 is installed")
     sys.exit(1)
 
-# Load the model
-model_path = os.path.join(cwd, "logistic_regression_model.pkl")
+# Load the model - Spark ML Pipeline saved as directory
+model_path = os.path.join(cwd, "logistic_regression_model")
 pipeline = None
 
 print("[Model] Loading ML model...")
 try:
+    # Load Spark PipelineModel from directory
     if os.path.isdir(model_path):
-        # Spark-saved pipeline (directory)
         pipeline = PipelineModel.load(model_path)
-        print("[Model] ✓ Loaded Spark PipelineModel")
-    elif os.path.isfile(model_path):
-        # Try loading with joblib/pickle (non-Spark model)
-        try:
-            pipeline = joblib.load(model_path)
-            print("[Model] ✓ Loaded model via joblib")
-        except Exception as e:
-            print(f"[ERROR] Failed to load model via joblib: {e}")
-            raise
+        print("[Model] ✓ Loaded Spark PipelineModel successfully")
     else:
         raise FileNotFoundError(
-            f"Model not found at {model_path}. Place Spark pipeline directory or a .pkl file there."
+            f"Model directory not found at {model_path}. "
+            f"Expected a Spark ML Pipeline directory. "
+            f"Run Big_Data.ipynb to train and save the model."
         )
 except Exception as e:
     print(f"[ERROR] {e}")

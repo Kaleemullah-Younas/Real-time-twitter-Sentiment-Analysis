@@ -9,4 +9,3 @@ kafka-python
 scikit-learn
 python-dotenv
 py4j
-typing_extensions
