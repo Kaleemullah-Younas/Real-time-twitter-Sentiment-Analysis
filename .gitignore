@@ -23,22 +23,6 @@ wheels/
 .installed.cfg
 *.egg
 
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb
-
-# Data files
-*.csv
-*.xlsx
-*.xls
-*.json
-*.parquet
-*.hdfs
-data/
-datasets/
-*.db
-*.sqlite
-
 # IDE and Editor
 .vscode/
 .idea/

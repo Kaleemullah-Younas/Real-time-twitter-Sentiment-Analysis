@@ -7,5 +7,6 @@ pyspark==3.4.3
 seaborn
 kafka-python
 scikit-learn
-py4j==0.10.9.7
 python-dotenv
+py4j
+typing_extensions
