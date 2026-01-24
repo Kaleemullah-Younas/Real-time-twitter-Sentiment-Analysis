@@ -373,7 +373,3 @@ This project is open source and available under the [MIT License](LICENSE).
 <p align="center">
   <b>⭐ If you found this project helpful, please give it a star!</b>
 </p>
-
-<p align="center">
-  Made with ❤️ for Big Data Analysis
-</p>
