@@ -244,6 +244,19 @@ cd Kafka-PySpark
 python producer-validation-tweets.py
 ```
 
+To stream a Xquik tweet export instead of the bundled validation CSV, save one
+tweet object per line with fields such as `id`, `username`, and `text`, then
+run. For endpoint discovery, see the Xquik API catalog at
+https://xquik.com/api/v1.
+
+```bash
+cd Kafka-PySpark
+python producer-validation-tweets.py \
+  --xquik-jsonl ../exports/xquik-tweets.jsonl \
+  --topic numtest \
+  --limit 100
+```
+
 **Expected Output:**
 ```
 Produced: [Tweet content...]
